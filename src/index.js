@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import VideoList from './containers/VideoList'
+import VideoDetail from './containers/VideoDetail'
+
+import './index.css';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <BrowserRouter>
+    <Switch>
+      <Route path="/video" render={VideoDetail} />
+      <Route path="/" render={VideoList} />
+    </Switch>
+  </BrowserRouter>,
+  document.getElementById('root')
+)
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
