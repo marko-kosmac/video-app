@@ -3,6 +3,7 @@ import {getVideos} from '../utils/api'
 import styled from "styled-components"
 import {Redirect} from 'react-router'
 import createHistory from 'history/createBrowserHistory'
+import {getFormatedVideoTime} from '../utils/misc'
 
 const history = createHistory()
 
@@ -12,17 +13,17 @@ const Videos = styled.div`
 `
 
 const VideoItem = styled.div`
-  width: 200px;
+  width: 300px;
   margin: 1rem;
 `
 
 const Thumb = styled.img`
-  width: 200px;
+  width: 300px;
   height: auto;
 `
 
 const Search = styled.input`
-  width: 200px;
+  width: 300px;
   height: auto;
 `
 
@@ -71,7 +72,7 @@ class VideoList extends React.Component {
         return item.active && filter ? (
           <VideoItem key={idx}>
             <h2>{item.title}</h2>
-            <p>{item.runningTime}</p>
+            <p>{getFormatedVideoTime(item.runningTime)}</p>
             <Thumb alt={item.title} src={item.thumbUrl} onClick={this.openVideo.bind(this, item.id)}/>
           </VideoItem>
         ) : null
