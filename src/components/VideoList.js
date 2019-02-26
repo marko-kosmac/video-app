@@ -21,12 +21,18 @@ const Thumb = styled.img`
   height: auto;
 `
 
+const Search = styled.input`
+  width: 200px;
+  height: auto;
+`
+
 class VideoList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       videos: [],
     }
+    this.handleSearch = this.handleSearch.bind(this)
   }
 
   componentDidMount() {
@@ -52,10 +58,17 @@ class VideoList extends React.Component {
     })
   }
 
+  handleSearch(event) {
+    this.setState({
+      search: event.target.value.toLowerCase(),
+    })
+  }
+
   render() {
     const videoList = this.state.videos.length ?
       this.state.videos.map((item, idx) => {
-        return item.active ? (
+        const filter = this.state.search ? item.title.toLowerCase().indexOf(this.state.search) >= 0 : true
+        return item.active && filter ? (
           <VideoItem key={idx}>
             <h2>{item.title}</h2>
             <p>{item.runningTime}</p>
@@ -67,6 +80,7 @@ class VideoList extends React.Component {
     return (
       <div>
         <h1>Video list</h1>
+        <Search onKeyUp={this.handleSearch} />
         <Videos>
           {videoList}
         </Videos>
