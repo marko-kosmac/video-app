@@ -1,6 +1,10 @@
 import React from 'react'
 import {getVideos} from '../utils/api'
-import styled from "styled-components";
+import styled from "styled-components"
+import {Redirect} from 'react-router'
+import createHistory from 'history/createBrowserHistory'
+
+const history = createHistory()
 
 const Videos = styled.div`
   display: flex;
@@ -37,6 +41,17 @@ class VideoList extends React.Component {
       })
   }
 
+  openVideo(videoID) {
+
+    history.push({
+      pathname: '/video',
+      search: '?videoID='+videoID,
+    })
+    this.setState({
+      openVideoWithID: videoID,
+    })
+  }
+
   render() {
     const videoList = this.state.videos.length ?
       this.state.videos.map((item, idx) => {
@@ -44,7 +59,7 @@ class VideoList extends React.Component {
           <VideoItem key={idx}>
             <h2>{item.title}</h2>
             <p>{item.runningTime}</p>
-            <Thumb alt={item.title} src={item.thumbUrl} />
+            <Thumb alt={item.title} src={item.thumbUrl} onClick={this.openVideo.bind(this, item.id)}/>
           </VideoItem>
         ) : null
       }) : null
@@ -55,6 +70,7 @@ class VideoList extends React.Component {
         <Videos>
           {videoList}
         </Videos>
+        {this.state.openVideoWithID && <Redirect to={`/video?videoID=${this.state.openVideoWithID}`} />}
       </div>
     )
   }
