@@ -7,24 +7,40 @@ import {getFormatedVideoTime} from '../utils/misc'
 
 const history = createHistory()
 
+const Title = styled.h1`
+  margin: 2rem 2rem 1rem;
+`
 const Videos = styled.div`
   display: flex;
   flex-wrap: wrap;
 `
-
 const VideoItem = styled.div`
-  width: 300px;
-  margin: 1rem;
+  width: 22rem;
+  margin: 1rem 2rem;
+  cursor: pointer;
 `
-
 const Thumb = styled.img`
-  width: 300px;
+  width: 20rem;
   height: auto;
 `
-
+const ThumbVideo = styled.div`
+  background: #f3f3f3;
+  padding: 1rem 1rem 0.25rem;
+`
+const Time = styled.div`
+  font-size: 0.75rem;
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+`
 const Search = styled.input`
-  width: 300px;
+  margin: 0 2rem;
+  width: 20rem;
+  padding: 0.5rem;
   height: auto;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 1rem;
 `
 
 class VideoList extends React.Component {
@@ -70,18 +86,20 @@ class VideoList extends React.Component {
       this.state.videos.map((item, idx) => {
         const filter = this.state.search ? item.title.toLowerCase().indexOf(this.state.search) >= 0 : true
         return item.active && filter ? (
-          <VideoItem key={idx}>
-            <h2>{item.title}</h2>
-            <p>{getFormatedVideoTime(item.runningTime)}</p>
-            <Thumb alt={item.title} src={item.thumbUrl} onClick={this.openVideo.bind(this, item.id)}/>
+          <VideoItem key={idx} onClick={this.openVideo.bind(this, item.id)}>
+            <h3>{item.title}</h3>
+            <ThumbVideo>
+              <Thumb alt={item.title} src={item.thumbUrl} />
+              <Time>{getFormatedVideoTime(item.runningTime)}</Time>
+            </ThumbVideo>
           </VideoItem>
         ) : null
       }) : null
 
     return (
       <div>
-        <h1>Video list</h1>
-        <Search onKeyUp={this.handleSearch} />
+        <Title>Video list</Title>
+        <Search onKeyUp={this.handleSearch} placeholder="Search"/>
         <Videos>
           {videoList}
         </Videos>
